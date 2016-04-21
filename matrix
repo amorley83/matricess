@@ -1,0 +1,116 @@
+class Matrix(object):
+
+    """A Class which allows blank matrices to be instantiated"""
+
+    def __init__(self,rows,columns):
+
+        self.rows = rows
+        self.columns= columns
+        self.matrix = [[int(0)]*self.columns]*self.rows
+
+    def __len__(self):
+
+        return len(self.matrix)
+
+    def printmatrix(self):
+
+        """Prints the Matrix"""
+
+        for i in self.matrix:
+            print i
+
+def create_blank():
+
+    """User Input Driven Blank Matrix Creation"""
+
+    mrows = int(raw_input('How Many Rows?  '))
+    mcolumns = int(raw_input('How Many Columns?  '))
+    return Matrix(mrows,mcolumns)
+
+    #This will return an instance of the Matrix class using the rows and columns supplied
+    #By returning this to a variable name it asigns that variable name to be the class object
+    #ie running the line: 'alex = create_blank()' will return a matrix of mrow and mcolumn size and call the matrix 'alex'
+
+#eg Instantiate a matrix 
+matrix1 = create_blank()
+
+#make matrix 2 same length as matrix 1
+matrix2 = Matrix(matrix1.rows,matrix1.columns)
+
+#prints matrix1
+matrix1.printmatrix()
+
+#prints matrix2
+matrix2.printmatrix()
+
+def altermat(mat,pos,row):
+
+    """Short function to alter a matrix row:
+    Takes in the name of the matrix to change, the position to be altered and the new row data to be used"""
+
+    mat.matrix[pos] = row
+
+def inputmat(mat):
+
+    """Takes in a matrix and allows user input to change row content"""
+
+    #Explanations:
+    #1 For every row in range 0 to number of rows in the matrix that has been passed to the function:
+    #2 Here, 'while True' means 'do this forever until you break out of it'
+    #3 This has used print formating, {} are placeholders linked to row input number and number of columns in the passed matrix
+    #  putting .strip() at the end of the raw_input statement removes white space at either end in case of accidental extra space
+    #3.5 This try/except means if there is any error with data entry it will not break code , 
+    #    it just restarts while loop for that row
+    #4 This section checks that the right number of values are added depending on column length
+    #  If not correct then it will restart the while loop
+    #5 Breaks out of the while loop and starts the next 'for' iteration
+    #6 Passes new row data for every row in the iteration to the specified matrix
+
+    #1
+    for r in range(0,mat.rows):
+
+        while True:
+            #2
+            matinput = (raw_input('Enter Row {b} with length {a}:  '.format(b = r+1, a=mat.columns))).strip()
+
+            #3
+            try:
+                row = [int(x) for x in matinput.split(' ')]
+
+            except:
+                print 'There was an error inputting numbers, retry'
+                continue
+
+            #3.5
+            if len(row) != mat.columns:
+                print 'You must enter the correct number of values...'
+                continue
+
+                #4
+            else:
+                break
+
+                #5
+        altermat(mat,r,row)
+
+        #6
+inputmat(matrix1)
+
+inputmat(matrix2)
+
+#Addition Function
+
+def mat_add(m1,m2):
+
+    output_add = []
+    for i in range(len(m1.matrix)):
+        row = []
+        for j in range(len(m1.matrix[0])):
+            row.append(m1.matrix[i][j]+m2.matrix[i][j])
+        output_add.append(row)
+
+ for i in output_add:
+        print i
+
+
+mat_add(matrix1,matrix2)
